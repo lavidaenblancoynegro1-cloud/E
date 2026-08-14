@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ether Electric — Ingeniería con precisión, energía y propósito</title>
+  <meta name="description" content="Ether Electric: soluciones eléctricas seguras, eficientes y personalizadas. Más de una década de experiencia en puesta en servicio, mantenimiento, estudios eléctricos y diseño electromecánico."/>
+  <meta name="keywords" content="Ether Electric, ingeniería eléctrica, puesta en servicio, mantenimiento eléctrico, automatización, diseño electromecánico, Colombia" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --bg:#07141a;            /* azul petróleo oscuro */
+      --panel:#0b1c24;
+      --accent:#ff7a2f;        /* cobre/ámbar cálido */
+      --accent-2:#06d4c8;      /* cian secundario */
+      --muted:#a7b9bf;
+      --white:#ffffff;
+      --glass: rgba(255,255,255,0.03);
+      --card:#0f2328;
+      --maxw:1200px;
+      --radius:14px;
+      --snap:100vh;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Inter", "Poppins", system-ui, Arial;
+      background: linear-gradient(180deg,#041219 0%, var(--bg) 100%);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.5;
+      overflow-y: auto;
+      scroll-behavior:smooth;
+    }
+    a{color:inherit}
+
+    /* Unique layout: each section full viewport and snap */
+    main{
+      scroll-snap-type: y mandatory;
+      height:100vh;
+      overflow-y: auto;
+    }
+    section{
+      scroll-snap-align: start;
+      min-height:var(--snap);
+      padding:48px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 1rem}
+
+    /* SPLASH / INTRO */
+    .splash{
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:2000;
+      transition:opacity .6s ease,visibility .6s;
+    }
+    .splash.hidden{opacity:0;visibility:hidden}
+    .splash .logo{
+      font-family:Poppins, sans-serif;color:var(--white);font-size:3rem;letter-spacing:1px;
+      display:flex;flex-direction:column;align-items:center;gap:.6rem;
+    }
+    .splash .logo .line{height:4px;width:160px;background:linear-gradient(90deg,var(--accent-2),var(--accent));border-radius:6px;opacity:.95}
+
+    /* NAV */
+    nav{position:fixed;top:18px;left:0;right:0;z-index:1500;display:flex;justify-content:center;pointer-events:none}
+    .nav-inner{pointer-events:auto;max-width:var(--maxw);width:100%;display:flex;align-items:center;justify-content:space-between;padding:6px 12px;margin:0 1rem}
+    .brand{display:flex;align-items:center;gap:.7rem}
+    .logo-box{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),#078f88);display:flex;align-items:center;justify-content:center;color:var(--bg);font-weight:700;font-family:Poppins}
+    .brand h1{margin:0;color:var(--white);font-size:1.05rem}
+    .brand .tag{font-size:.78rem;color:var(--muted)}
+
+    .nav-right{display:flex;align-items:center;gap:.6rem}
+    .nav-links{display:flex;gap:.6rem;align-items:center}
+    .nav-links a{color:var(--muted);padding:.45rem .65rem;border-radius:8px;font-weight:600}
+    .nav-links a:hover{color:var(--accent-2);background:rgba(255,255,255,0.01)}
+    .cta-btn{background:linear-gradient(90deg,var(--accent-2),var(--accent));color:var(--bg);padding:.5rem .85rem;border-radius:999px;font-weight:700;border:none;cursor:pointer}
+
+    /* SEARCH: a la derecha, despliega el panel con secciones */
+    .search-wrap{position:relative}
+    .search-button{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);padding:.6rem;border-radius:10px;cursor:pointer;color:var(--muted)}
+    .search-panel{
+      position:absolute;right:0;top:56px;width:320px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:12px;border-radius:12px;box-shadow:0 18px 40px rgba(2,8,12,0.6);backdrop-filter: blur(6px);
+      display:none;
+    }
+    .search-panel.show{display:block}
+    .search-panel h4{margin:0 0 .5rem;color:var(--white);font-size:.95rem}
+    .search-panel ul{list-style:none;padding:0;margin:0}
+    .search-panel li{padding:.6rem;border-radius:8px;cursor:pointer;color:var(--muted);display:flex;align-items:center;gap:.6rem}
+    .search-panel li:hover{background:rgba(255,255,255,0.01);color:var(--accent-2)}
+
+    /* HERO (sección 1) */
+    .hero{
+      display:flex;align-items:center;justify-content:center;text-align:center;position:relative;background-image:linear-gradient(180deg, rgba(2,8,10,0.25), rgba(2,8,10,0.65)), url('img/hero-bg.jpg');
+      background-size:cover;background-position:center;padding-top:96px;
+    }
+    .hero-inner{max-width:980px;padding:2rem}
+    .eyebrow{color:var(--accent);font-weight:700;margin-bottom:.6rem;letter-spacing:.6px}
+    .hero-title{font-size:2.6rem;color:var(--white);margin:0 0 .6rem;line-height:1.02;font-family:Poppins}
+    .hero-sub{color:var(--muted);font-size:1.02rem;margin-bottom:1.1rem}
+    .hero-ctas{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+    .hero-ctas a{padding:.8rem 1.1rem;border-radius:10px;font-weight:700}
+    .cta-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+    .small-note{margin-top:14px;color:var(--muted)}
+
+    /* SERVICES (seccion 2): 3x2 with interactive reveal */
+    .services-wrap{width:100%;max-width:1200px;margin:0 auto}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .service-card{
+      perspective:1200px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
+      border-radius:var(--radius);border:1px solid rgba(255,255,255,0.03);overflow:visible;padding:16px;min-height:170px;position:relative;cursor:pointer;
+      transition:transform .45s cubic-bezier(.2,.9,.3,1), box-shadow .3s;
+      display:flex;flex-direction:column;gap:.6rem;
+    }
+    .service-card .surface{transform-style:preserve-3d;transition:transform .45s}
+    .service-card:hover{transform:translateY(-18px);box-shadow:0 28px 60px rgba(2,8,12,0.65)}
+    .service-icon{width:62px;height:62px;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),#07b7b0);display:flex;align-items:center;justify-content:center;color:var(--bg);font-size:1.2rem}
+    .service-title{font-size:1.05rem;color:var(--white);margin:0}
+    .service-desc{color:var(--muted);margin:0;font-size:.95rem}
+    .service-detail{
+      position:absolute;left:14px;right:14px;bottom:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(0,0,0,0.32), rgba(0,0,0,0.12));color:var(--muted);font-size:.92rem;transform:translateY(12px);opacity:0;transition:all .36s;
+    }
+    .service-card:hover .service-detail,.service-card.active .service-detail{transform:none;opacity:1}
+
+    @media (max-width:980px){ .services-grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:640px){ .services-grid{grid-template-columns:1fr} .nav-links{display:none} .search-panel{right:8px;left:8px;width:auto} }
+
+    /* HOW WE WORK (section 3) */
+    .how-grid{display:grid;grid-template-columns:1fr 300px 1fr;gap:16px;align-items:center;max-width:1200px;margin:0 auto}
+    .how-step{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);text-align:left}
+    .how-center{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.8rem}
+    .how-icon{width:140px;height:140px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:8px solid rgba(255,255,255,0.03)}
+    .how-icon i{font-size:44px;color:var(--accent);}
+
+    /* PROJECTS */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:10px}
+    .project-card{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.03);transition:transform .25s}
+    .project-card:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(0,0,0,0.45)}
+    .project-card strong{display:block;color:var(--white)}
+
+    /* COTIZACIÓN: sección pantalla completa con fondo acento */
+    .cotizacion{
+      background: linear-gradient(180deg, rgba(12,6,3,0.06), rgba(0,0,0,0.15)), linear-gradient(90deg,var(--accent-2),var(--accent));
+      color:var(--bg);
+      padding-top:64px;padding-bottom:64px;
+    }
+    .form-wrap{max-width:920px;margin:0 auto}
+    form{display:grid;gap:.6rem;padding:18px;border-radius:12px;background:rgba(255,255,255,0.95)}
+    input,select,textarea{padding:.75rem;border-radius:8px;border:1px solid rgba(0,0,0,0.06);width:100%;font-size:1rem}
+    .row{display:flex;gap:.6rem}
+    .row .col{flex:1}
+    .btn-primary{background:linear-gradient(90deg,var(--accent-2),var(--accent));color:var(--bg);padding:.7rem 1rem;border-radius:999px;border:none;font-weight:700;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,0.12)}
+    .btn-primary.pulse{animation: pulse 2.4s infinite}
+    @keyframes pulse{0%{box-shadow:0 6px 20px rgba(255,122,47,0.18)}50%{box-shadow:0 12px 34px rgba(255,122,47,0.28)}100%{box-shadow:0 6px 20px rgba(255,122,47,0.18)}}
+
+    .btn-secondary{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:.6rem;border-radius:8px;cursor:pointer}
+
+    /* PQR: tarjeta seleccionable */
+    .pqr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:1000px;margin:12px auto}
+    .pqr-card{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));border:1px solid rgba(0,0,0,0.04);cursor:pointer;transition:transform .18s}
+    .pqr-card:hover{transform:translateY(-6px)}
+    .pqr-card.active{outline:3px solid rgba(6,210,200,0.08)}
+
+    /* FOOTER */
+    footer{padding:28px 0;background:linear-gradient(180deg,#031015,#021015);color:var(--muted)}
+    .footer-inner{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;max-width:var(--maxw);margin:0 auto;padding:0 1rem}
+    .socials a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.02);margin-right:.4rem;color:var(--muted)}
+    .socials a:hover{color:var(--accent-2);transform:translateY(-3px)}
+
+    .whatsapp{position:fixed;right:18px;bottom:18px;z-index:1600}
+    .whatsapp a{display:flex;align-items:center;justify-content:center;width:62px;height:62px;border-radius:50%;background:linear-gradient(90deg,#25D366,#20b85a);color:#fff;font-size:1.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
+
+    /* Reveal helper */
+    .reveal{opacity:0;transform:translateY(16px);transition:all .6s cubic-bezier(.2,.9,.3,1)}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* Responsiveness */
+    @media (max-width:980px){
+      .how-grid{grid-template-columns:1fr}
+      .pqr-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:640px){
+      .nav-links{display:none}
+      .hero-title{font-size:1.8rem}
+      .search-panel{right:8px;left:8px;width:auto}
+      .service-detail{display:none}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SPLASH / INTRO (solo nombre) -->
+  <div class="splash" id="splash">
+    <div class="logo">
+      <div style="font-size:3.2rem;font-weight:700;color:var(--white)">Ether Electric</div>
+      <div class="line" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav aria-label="Navegación principal">
+    <div class="nav-inner container">
+      <div class="brand" aria-hidden="false">
+        <div class="logo-box">EE</div>
+        <div>
+          <h1>Ether Electric</h1>
+          <div class="tag">Ingeniería con precisión, energía y propósito</div>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <div class="nav-links" role="navigation" aria-label="Enlaces principales">
+          <a href="#hero">Inicio</a>
+          <a href="#servicios">Servicios</a>
+          <a href="#metodo">Cómo trabajamos</a>
+          <a href="#proyectos">Proyectos</a>
+          <a href="#cotizacion">Cotización</a>
+          <a href="#pqr">PQR</a>
+        </div>
+
+        <div class="search-wrap" title="Ir a sección">
+          <button class="search-button" id="searchBtn" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <div class="search-panel" id="searchPanel" role="dialog" aria-label="Buscador interno">
+            <h4>Ir a...</h4>
+            <ul>
+              <li data-target="#hero"><i class="fa-solid fa-house"></i> Inicio</li>
+              <li data-target="#servicios"><i class="fa-solid fa-bolt"></i> Servicios</li>
+              <li data-target="#metodo"><i class="fa-solid fa-gear"></i> Cómo trabajamos</li>
+              <li data-target="#proyectos"><i class="fa-solid fa-briefcase"></i> Proyectos</li>
+              <li data-target="#cotizacion"><i class="cta-btn""></i> Cotización</li>
+              <li data-target="#pqr"><i class="fa-solid fa-file-lines"></i> PQR</li>
+            </ul>
+          </div>
+        </div>
+
+        <a class="cta-btn" href="#cotizacion">Cotiza tu servicio</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN: sections snap -->
+  <main id="mainScroll" tabindex="0">
+
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <div class="hero-inner container reveal">
+        <div class="eyebrow">Más de una década impulsando proyectos eléctricos</div>
+        <h2 class="hero-title">Ingeniería con precisión, energía y propósito</h2>
+        <p class="hero-sub">Soluciones eléctricas seguras, eficientes y personalizadas para industria y comercio. Diseñamos sistemas confiables, medibles y listos para operar.</p>
+        <div class="hero-ctas">
+          <a class="cta-ghost" href="#cotizacion">Conoce nuestros servicios</a>
+          <a class="cta-btn" href="#servicios">Solicita tu cotización</a>
+          <a class="cta-ghost" href="assets/portafolio.pdf" target="_blank"><i class="fa-regular fa-file-pdf"></i>&nbsp; Portafolio</a>
+        </div>
+        <div class="small-note">Cada voltio cuenta, cada detalle importa.</div>
+      </div>
+    </section>
+
+    <!-- SERVICES (3x2 interactive) -->
+    <section id="servicios" class="reveal">
+      <div class="container">
+        <h2>Servicios Especializados</h2>
+        <p class="lead">Soluciones integrales en ingeniería eléctrica: desde el diseño hasta la puesta en servicio y mantenimiento.</p>
+
+        <div class="services-wrap">
+          <div class="services-grid" id="servicesGrid">
+
+            <article class="service-card" data-key="instalaciones" tabindex="0">
+              <div class="surface">
+                <div class="service-top" style="display:flex;gap:12px;align-items:flex-start">
+                  <div class="service-icon"><i class="fa-solid fa-bolt"></i></div>
+                  <div>
+                    <h3 class="service-title">Instalaciones eléctricas</h3>
+                    <p class="service-desc">Montaje, cableado estructurado, tableros y adecuaciones industriales y comerciales.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="service-detail">Entrega técnica con verificación de seguridad y conformidad normativa.</div>
+            </article>
+
+            <article class="service-card" data-key="puesta" tabindex="0">
+              <div class="surface">
+                <div class="service-top" style="display:flex;gap:12px;align-items:flex-start">
+                  <div class="service-icon"><i class="fa-solid fa-play"></i></div>
+                  <div>
+                    <h3 class="service-title">Puesta en servicio</h3>
+                    <p class="service-desc">Programación de relés y PLCs, pruebas funcionales, pruebas de aislamiento y verificación.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="service-detail">Pruebas certificadas y ajustes en campo para operación segura.</div>
+            </article>
+
+            <article class="service-card" data-key="estudios" tabindex="0">
+              <div class="surface">
+                <div class="service-top" style="display:flex;gap:12px;align-items:flex-start">
+                  <div class="service-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                  <div>
+                    <h3 class="service-title">Estudios eléctricos</h3>
+                    <p class="service-desc">Flujo de carga, cortocircuito, arranque de motores y estudios de arco eléctrico.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="service-detail">Flujo de carga, cortocircuito, arranque de motores y estudios de arco eléctrico. Informes técnicos con recomendaciones accionables.</div>
+            </article>
+
+            <article class="service-card" data-key="diseno" tabindex="0">
+              <div class="surface">
+                <div class="service-top" style="display:flex;gap:12px;align-items:flex-start">
+                  <div class="service-icon"><i class="fa-solid fa-cogs"></i></div>
+                  <div>
+                    <h3 class="service-title">Diseño electromecánico</h3>
+                    <p class="service-desc">Diagramas unifilares, sistemas de puesta a tierra, dimensionamiento y automatización.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="service-detail">Diseños optimizados para seguridad, mantenimiento y eficiencia operativa.</div>
+            </article>
+
+            <article class="service-card" data-key="mantenimiento" tabindex="0">
+              <div class="surface">
+                <div class="service-top" style="display:flex;gap:12px;align-items:flex-start">
+                  <div class="service-icon"><i class="fa-solid fa-tools"></i></div>
+                  <div>
+                    <h3 class="service-title">Mantenimiento</h3>
+                    <p class="service-desc">Planes preventivos, inspecciones periódicas y atención correctiva.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="service-detail">Estrategias para minimizar paradas y costos operativos.</div>
+            </article>
+
+            <article class="service-card" data-key="automatizacion" tabindex="0">
+              <div class="surface">
+                <div class="service-top" style="display:flex;gap:12px;align-items:flex-start">
+                  <div class="service-icon"><i class="fa-solid fa-brain"></i></div>
+                  <div>
+                    <h3 class="service-title">Automatización & Control</h3>
+                    <p class="service-desc">Sistemas SCADA, PLC y optimización de procesos industriales.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="service-detail">Soluciones que reducen tiempos de ciclo y optimizan consumo energético.</div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW WE WORK -->
+    <section id="metodo" class="reveal">
+      <div class="container">
+        <h2>Cómo trabajamos</h2>
+        <p class="lead">Procesos claros, cumplimiento normativo y entrega controlada en cada fase del proyecto.</p>
+
+        <div class="how-grid">
+          <div class="how-step reveal">
+            <h4>Diagnóstico técnico</h4>
+            <p class="muted">Evaluación del alcance, riesgos y necesidades técnicas.</p>
+          </div>
+
+          <div class="how-center reveal">
+            <div class="how-icon" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></div>
+            <div style="text-align:center"><strong style="color:var(--white)">Ejecución segura</strong><p class="muted" style="margin:.4rem 0 0">Montaje y pruebas bajo estándares RETIE/NTC — seguridad como criterio principal.</p></div>
+          </div>
+
+          <div class="how-step reveal">
+            <h4>Gestión del proyecto</h4>
+            <p class="muted">Planificación, recursos y control de calidad para garantizar tiempos y presupuesto.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="proyectos" class="reveal">
+      <div class="container">
+        <h2>Proyectos Destacados</h2>
+        <p class="lead">Proyectos en distintas regiones, junto a empresas del sector industrial y energético.</p>
+
+        <div class="projects-grid">
+          <div class="project-card"><strong>Acerías Paz del Río</strong><small> Nobsa, Boyacá — Instalaciones industriales</small></div>
+          <div class="project-card"><strong>Vidrio Andino</strong><small> Soacha — Estudios y puesta en servicio</small></div>
+          <div class="project-card"><strong>Schneider Electric</strong><small> Castilla la Nueva / Barrancabermeja — Puesta en servicio</small></div>
+          <div class="project-card"><strong>Crowm Projects — Enel</strong><small> Bogotá — Diseño electromecánico</small></div>
+          <div class="project-card"><strong>Crowm Projects — Afinia</strong><small> Cartagena — Puesta en servicio</small></div>
+          <div class="project-card"><strong>Crowm Projects — Ecopetrol</strong><small> Rubiales — Proyecto integral</small></div>
+          <div class="project-card"><strong>Crowm Projects — Smurfit Kappa</strong><small> Yumbo, Valle — Automatización</small></div>
+          <div class="project-card"><strong>Crowm Projects — Power China</strong><small> Honda — Coordinación de pruebas</small></div>
+        </div>
+
+        <div class="map-placeholder" style="margin-top:14px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.03);text-align:center">
+          <p style="margin:0 0 .4rem"><strong>Mapa de proyectos</strong></p>
+          <p class="muted" style="margin:0">Versión interactiva en desarrollo — ver prototipo en <a href="https://github.com/tu-repo" target="_blank" style="color:var(--accent-2)">GitHub</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COTIZACIÓN (pantalla completa con fondo acento) -->
+    <section id="cotizacion" class="cotizacion reveal">
+      <div class="container">
+        <h2 style="color:var(--bg)">Solicita tu Cotización</h2>
+        <p class="lead" style="color:var(--bg)">Cuéntanos tu proyecto y te asesoraremos sin compromiso. Recibirás respuesta por correo y por WhatsApp.</p>
+
+        <div class="form-wrap">
+          <form id="quoteForm" novalidate>
+            <div class="row">
+              <div class="col">
+                <input id="q_name" name="name" type="text" placeholder="Tu nombre completo" required>
+                <div class="error" id="err_name"></div>
+              </div>
+              <div class="col">
+                <input id="q_phone" name="phone" type="tel" placeholder="Teléfono (10 dígitos)" required pattern="\d{10}">
+                <div class="error" id="err_phone"></div>
+              </div>
+            </div>
+
+            <input id="q_email" name="email" type="email" placeholder="Tu correo electrónico" required>
+            <div class="error" id="err_email"></div>
+
+            <select id="q_service" name="service" required>
+              <option value="">Selecciona un servicio</option>
+              <option>Instalaciones eléctricas</option>
+              <option>Puesta en servicio</option>
+              <option>Estudios eléctricos</option>
+              <option>Diseño electromecánico</option>
+              <option>Mantenimiento</option>
+              <option>Automatización y control</option>
+            </select>
+            <div class="error" id="err_service"></div>
+
+            <textarea id="q_details" name="details" rows="5" placeholder="Cuéntanos los detalles de tu proyecto (mín. 10 caracteres)" required></textarea>
+            <div class="error" id="err_details"></div>
+
+            <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap">
+              <button type="submit" class="btn-primary pulse">Enviar solicitud</button>
+              <button type="button" id="previewWhats" class="btn-secondary">Previsualizar WhatsApp</button>
+              <a href="assets/portafolio.pdf" target="_blank" class="btn-secondary"><i class="fa-regular fa-file-pdf"></i>&nbsp; Ver portafolio</a>
+            </div>
+
+            <div style="margin-top:12px;color:rgba(0,0,0,0.7);font-weight:600">Cada voltio cuenta, cada detalle importa.</div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- PQR -->
+    <section id="pqr" class="reveal">
+      <div class="container">
+        <h2>Peticiones, Quejas y Reclamos (PQR)</h2>
+        <p class="lead">Valoramos la transparencia. Selecciona el tipo de solicitud y completa el formulario correspondiente.</p>
+
+        <div class="pqr-grid" id="pqrGrid">
+          <div class="pqr-card" data-type="Petición" tabindex="0">
+            <h4>Petición</h4>
+            <p class="muted">Solicitudes de información o servicios.</p>
+          </div>
+          <div class="pqr-card" data-type="Queja" tabindex="0">
+            <h4>Queja</h4>
+            <p class="muted">Reportes de incidencias en servicio o calidad.</p>
+          </div>
+          <div class="pqr-card" data-type="Reclamo" tabindex="0">
+            <h4>Reclamo</h4>
+            <p class="muted">Solicitudes de reparación o acciones correctivas.</p>
+          </div>
+        </div>
+
+        <div id="pqrFormWrap" style="max-width:860px;margin:16px auto 0;display:none">
+          <form id="pqrForm" novalidate style="display:grid;gap:.6rem;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));border:1px solid rgba(0,0,0,0.04)">
+            <div style="display:flex;gap:.6rem">
+              <input id="p_name" placeholder="Tu nombre completo" required>
+              <input id="p_email" type="email" placeholder="Tu correo" required>
+            </div>
+            <div style="display:flex;gap:.6rem">
+              <input id="p_type_display" readonly style="background:#f3f3f3">
+              <input id="p_ref" placeholder="Referencia (opcional)">
+            </div>
+            <textarea id="p_details" rows="5" placeholder="Detalle (mín. 10 caracteres)"></textarea>
+            <div style="display:flex;gap:.6rem;align-items:center">
+              <button id="sendPQR" class="btn-primary">Enviar PQR</button>
+              <button type="button" id="cancelPQR" class="btn-secondary">Cancelar</button>
+            </div>
+            <div class="error" id="pqr_error" style="color:#c33"></div>
+            <div style="margin-top:6px;color:var(--muted)"><small>Tu mensaje será atendido directamente por nuestro equipo técnico.</small></div>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner container">
+      <div style="display:flex;gap:.8rem;align-items:center">
+        <div style="width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,var(--accent-2),var(--accent));color:var(--bg);font-weight:700">EE</div>
+        <div>
+          <div style="color:var(--white);font-weight:700">Ether Electric</div>
+          <div style="color:var(--muted);font-size:.9rem">Ingeniería con precisión, energía y propósito</div>
+        </div>
+      </div>
+
+      <div style="text-align:right">
+        <div style="margin-bottom:.6rem">
+          <a href="#" style="color:var(--muted);margin-right:.5rem">Política de privacidad</a>
+          <a href="#" style="color:var(--muted)">Términos</a>
+        </div>
+        <div class="socials">
+          <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="#" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:12px;color:var(--muted);font-size:.9rem;padding-bottom:18px">
+      <div>Ubicación: Calle 64J N° 86-90, Álamos - Bogotá</div>
+      <div style="margin-top:6px">© 2025 Ether Electric ⚡ Ingeniería con precisión, energía y propósito.</div>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP -->
+  <div class="whatsapp">
+    <a id="waFloat" href="https://wa.me/573001112233" target="_blank" title="Escríbenos por WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script>
+    /* ---------- CONFIG ---------- */
+    const COMPANY_EMAIL = "contacto@etherelectric.com";
+    const WHATSAPP_NUMBER = "573001112233";
+
+    /* ---------- SPLASH ---------- */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const s = document.getElementById('splash');
+        s.classList.add('hidden');
+      }, 900); // tiempo splash (ajustable)
+    });
+
+    /* ---------- IntersectionObserver reveal ---------- */
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+    /* ---------- SEARCH PANEL ---------- */
+    const searchBtn = document.getElementById('searchBtn');
+    const searchPanel = document.getElementById('searchPanel');
+    searchBtn.addEventListener('click', ()=> {
+      const open = searchPanel.classList.toggle('show');
+      searchBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.querySelectorAll('#searchPanel li').forEach(li=>{
+      li.addEventListener('click', ()=> {
+        const t = li.getAttribute('data-target');
+        searchPanel.classList.remove('show');
+        document.querySelector(t)?.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+    document.addEventListener('click', (e)=> { if(!e.target.closest('.search-wrap')) searchPanel.classList.remove('show'); });
+
+    /* ---------- SERVICES: make clickable to toggle 'active' on mobile (hover works on desktop) ---------- */
+    document.querySelectorAll('.service-card').forEach(card=>{
+      card.addEventListener('click', ()=> {
+        // on small screens toggle; on desktop hover handles expansion
+        if(window.innerWidth < 640){
+          document.querySelectorAll('.service-card').forEach(c=> c.classList.remove('active'));
+          card.classList.add('active');
+        }
+      });
+      // keyboard accessible: Enter toggles
+      card.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter'){ card.click(); }
+      });
+    });
+
+    /* ---------- COTIZACION FORM VALIDATION & SUBMIT ---------- */
+    const quoteForm = document.getElementById('quoteForm');
+    function setErr(id,msg){ document.getElementById(id).textContent = msg; }
+    function clearQ(){ ['err_name','err_phone','err_email','err_service','err_details'].forEach(i=>document.getElementById(i).textContent=''); }
+
+    quoteForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      clearQ();
+      const name = document.getElementById('q_name').value.trim();
+      const phone = document.getElementById('q_phone').value.trim();
+      const email = document.getElementById('q_email').value.trim();
+      const service = document.getElementById('q_service').value;
+      const details = document.getElementById('q_details').value.trim();
+      let ok = true;
+      if(name.length < 3){ setErr('err_name','Ingresa tu nombre completo (mín. 3 caracteres).'); ok=false; }
+      if(!/^\d{10}$/.test(phone)){ setErr('err_phone','Teléfono inválido (10 dígitos).'); ok=false; }
+      if(!/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(email)){ setErr('err_email','Correo no válido.'); ok=false; }
+      if(!service){ setErr('err_service','Selecciona un servicio.'); ok=false; }
+      if(details.length < 10){ setErr('err_details','Describe tu proyecto (mín. 10 caracteres).'); ok=false; }
+      if(!ok) return;
+
+      const subject = `Solicitud de cotización: ${service} — ${name}`;
+      const body = `Nombre: ${name}%0AEmail: ${email}%0ATeléfono: ${phone}%0AServicio: ${service}%0ADetalles: ${encodeURIComponent(details)}`;
+      const mailto = `mailto:${COMPANY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
+      const waMsg = `Hola, soy ${name}. Me interesa el servicio: ${service}. Tel: ${phone}. Detalles: ${details}`;
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`;
+
+      // open mail client then whatsapp
+      window.open(mailto, '_blank');
+      setTimeout(()=> window.open(waUrl, '_blank'), 600);
+
+      quoteForm.reset();
+      alert('Solicitud generada. Se abrirá tu cliente de correo y WhatsApp para enviar el mensaje.');
+    });
+
+    // Preview WhatsApp
+    document.getElementById('previewWhats').addEventListener('click', ()=>{
+      const name = document.getElementById('q_name').value.trim() || '[Nombre]';
+      const phone = document.getElementById('q_phone').value.trim() || '[Teléfono]';
+      const service = document.getElementById('q_service').value || '[Servicio]';
+      const details = document.getElementById('q_details').value.trim() || '[Detalles]';
+      const msg = `Hola, soy ${name}. Me interesa el servicio: ${service}. Tel: ${phone}. Detalles: ${details}`;
+      alert('Previsualización WhatsApp:\n\n' + msg);
+    });
+
+    /* ---------- PQR cards behavior ---------- */
+    const pqrGrid = document.getElementById('pqrGrid');
+    const pqrFormWrap = document.getElementById('pqrFormWrap');
+    const pqrForm = document.getElementById('pqrForm');
+
+    pqrGrid.querySelectorAll('.pqr-card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        pqrGrid.querySelectorAll('.pqr-card').forEach(c=> c.classList.remove('active'));
+        card.classList.add('active');
+        const type = card.getAttribute('data-type');
+        document.getElementById('p_type_display').value = type;
+        pqrFormWrap.style.display = 'block';
+        // scroll to form
+        setTimeout(()=> pqrFormWrap.scrollIntoView({behavior:'smooth',block:'center'}), 150);
+      });
+    });
+
+    // cancel PQR
+    document.getElementById('cancelPQR').addEventListener('click', ()=>{
+      pqrFormWrap.style.display = 'none';
+      pqrGrid.querySelectorAll('.pqr-card').forEach(c=> c.classList.remove('active'));
+    });
+
+    // send PQR
+    document.getElementById('sendPQR').addEventListener('click', (e)=>{
+      e.preventDefault();
+      document.getElementById('pqr_error').textContent = '';
+      const name = document.getElementById('p_name').value.trim();
+      const email = document.getElementById('p_email').value.trim();
+      const type = document.getElementById('p_type_display').value.trim();
+      const details = document.getElementById('p_details').value.trim();
+      if(name.length < 3){ document.getElementById('pqr_error').textContent = 'Nombre inválido (mín. 3 caracteres).'; return; }
+      if(!/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(email)){ document.getElementById('pqr_error').textContent = 'Correo inválido.'; return; }
+      if(!type){ document.getElementById('pqr_error').textContent = 'Selecciona un tipo de PQR.'; return; }
+      if(details.length < 10){ document.getElementById('pqr_error').textContent = 'Detalle demasiado corto (mín. 10 caracteres).'; return; }
+
+      const subject = `PQR - ${type} - ${name}`;
+      const body = `Nombre: ${name}%0AEmail: ${email}%0ATipo: ${type}%0AReferencia: ${encodeURIComponent(document.getElementById('p_ref').value)}%0ADetalle: ${encodeURIComponent(details)}`;
+      const mailto = `mailto:${COMPANY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
+      window.open(mailto, '_blank');
+      // reset
+      pqrForm.reset();
+      pqrFormWrap.style.display = 'none';
+      pqrGrid.querySelectorAll('.pqr-card').forEach(c=> c.classList.remove('active'));
+      alert('Tu PQR ha sido preparada para envío por correo. Gracias.');
+    });
+
+    /* ---------- keyboard accessibility (close splash with Escape) ---------- */
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){ document.getElementById('searchPanel')?.classList.remove('show'); }
+    });
+  </script>
+</body>
+</html>
